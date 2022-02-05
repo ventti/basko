@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# basko + petcat wrapper
+#
+
+if [[ "$2" = *".prg" ]]; then
+    python3 basko.py $1 | petcat -w2 -o $2
+else
+    echo "usage: $0 input.bas output.prg"
+    exit 1
+fi
