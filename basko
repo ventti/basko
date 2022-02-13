@@ -2,9 +2,13 @@
 #
 # basko + petcat wrapper
 #
-
+set -eo pipefail
+TMP=/tmp/basko_temp.bas
+rm -rf ${TMP}
 if [[ "$2" = *".prg" ]]; then
-    python3 basko.py $1 | petcat -w2 -o $2
+    python3 basko.py $1 > ${TMP} || exit 1
+    petcat -w2 -o $2 -- ${TMP}
+    rm -rf ${TMP}
 else
     echo "usage: $0 input.basko output.prg"
     exit 1

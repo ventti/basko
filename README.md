@@ -14,6 +14,7 @@ In addition Basko supports Python inline scripting. Such a nice feature for doin
 
 * Python 3.6 or later
 * [Petcat](http://manpages.ubuntu.com/manpages/bionic/man1/petcat.1.html)
+* [64tass](http://tass64.sourceforge.net/) for assembler blocks
 
 ## .basko file format - Modified Basic syntax
 
@@ -24,6 +25,7 @@ In addition Basko supports Python inline scripting. Such a nice feature for doin
 `\` was eccentrically chosen as the magic character to define the labels. Rationale is, it is not available in PETSCII nor reserved by petcat.
 * Python code blocks can be embedded to the basic code. Executable blocks are defined with ``` characters. Such blocks are [executed](https://docs.python.org/3/library/functions.html#exec)
 * Inline expressions are defined between ` characters. Such expressions are [evaluated](https://docs.python.org/3/library/functions.html#eval).
+* 64tass code blocks are compiled and the binary is stored in `asm` dictionary on Python with key given in the block init line. See the example for details.
 
 ### Examples
 
@@ -36,11 +38,11 @@ goto \*loop\
 #### Code blocks
 ````` 
 ```
-# this code is executed
+# this python code is executed
 x = 1 + 1
 ```
 
-# these variables are evaluated
+# these python variables are evaluated
 print "i have `x` hands and `5 * x` fingers"
 
 ````` 
@@ -49,6 +51,21 @@ will result as
 ```
 0 print "i have 2 hands and 10 fingers"
 ```
+
+````` 
+```py
+# this is also a python block
+pass
+```
+````` 
+
+````` 
+```asm=myasm
+; this is a 64tasm block, compiled binary available in Python as asm['myasm']
+lda #0
+sta $d020
+```
+````` 
 
 ## Usage
 
